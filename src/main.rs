@@ -6,10 +6,10 @@ extern crate scan_fmt;
 #[macro_use]
 mod utils;
 mod days {
-    pub mod day_05;
+    pub mod day_06;
 }
-use days::day_05;
+use days::day_06;
 
 fn main() {
-    day_05::run();
+    day_06::run();
 }
