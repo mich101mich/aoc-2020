@@ -6,6 +6,8 @@ pub use std::collections::{HashMap, HashSet, VecDeque};
 pub use std::io::Write;
 pub use std::str::FromStr;
 
+pub use crate::neighbors::*;
+
 macro_rules! pv {
 	($var: expr) => {
 		println!("{}: {:?}", stringify!($var), $var)
@@ -32,27 +34,6 @@ impl<T, I: Iterator<Item = T>> IterExt<T> for I {
 	fn to_vec(self) -> Vec<T> {
 		self.collect()
 	}
-}
-
-pub fn neighbors(
-	(x, y): (usize, usize),
-	width: usize,
-	height: usize,
-) -> impl Iterator<Item = (usize, usize)> {
-	let mut n = vec![];
-	if y > 0 {
-		n.push((x, y - 1));
-	}
-	if x > 0 {
-		n.push((x - 1, y));
-	}
-	if x < width - 1 {
-		n.push((x + 1, y));
-	}
-	if y < height - 1 {
-		n.push((x, y + 1));
-	}
-	n.into_iter()
 }
 
 pub fn diff(a: usize, b: usize) -> usize {
