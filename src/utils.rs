@@ -47,6 +47,10 @@ pub fn manhattan(p1: (usize, usize), p2: (usize, usize)) -> usize {
 	diff(p1.0, p2.0) + diff(p1.1, p2.1)
 }
 
+pub fn manhattan_i(p1: (isize, isize), p2: (isize, isize)) -> usize {
+	diff_i(p1.0, p2.0) + diff_i(p1.1, p2.1)
+}
+
 pub fn manhattan_3d(p1: (usize, usize, usize), p2: (usize, usize, usize)) -> usize {
 	diff(p1.0, p2.0) + diff(p1.1, p2.1) + diff(p1.2, p2.2)
 }
