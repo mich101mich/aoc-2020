@@ -23,6 +23,11 @@ macro_rules! scanf {
     };
 }
 
+pub fn parse_u(input: &str) -> usize {
+	input
+		.parse::<usize>()
+		.unwrap_or_else(|_| panic!("failed to parse >{}<", input))
+}
 pub fn parse(input: &str) -> i64 {
 	i64::from_str(input).unwrap_or_else(|_| panic!("failed to parse >{}<", input))
 }
