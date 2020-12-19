@@ -17,12 +17,12 @@ pub fn run() {
 
     for (o, s) in rest.iter().skip(1) {
         println!("{} {}", offset, step);
-        let min = (1..)
+        let min = (0..)
             .map(|i| i * step + offset)
             .find(|t| (t + o) % s == 0)
             .unwrap();
         offset = min;
-        step *= *s;
+        step = num::integer::lcm(step, *s);
     }
     pv!(offset);
 }
