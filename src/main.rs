@@ -7,10 +7,10 @@ extern crate scan_fmt;
 mod utils;
 mod neighbors;
 mod days {
-    pub mod day_18;
+    pub mod day_19;
 }
-use days::day_18;
+use days::day_19;
 
 fn main() {
-    day_18::run();
+    day_19::run();
 }
