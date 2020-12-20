@@ -67,7 +67,7 @@ pub fn get_grid<T: Clone>(value: T, width: usize, height: usize) -> Vec<Vec<T>> 
 	vec![vec![value; width]; height]
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub enum Dir {
 	Up,
 	Right,
@@ -82,6 +82,9 @@ impl Dir {
 	}
 	pub fn counter_clockwise(self) -> Dir {
 		((self.num() + 3) % 4).into()
+	}
+	pub fn opposite(self) -> Dir {
+		((self.num() + 2) % 4).into()
 	}
 	pub fn num(self) -> usize {
 		self.into()
