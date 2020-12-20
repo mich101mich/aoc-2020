@@ -38,4 +38,8 @@ fn main() {
 
 touch src/input/$DAY.txt
 
-cmd.exe /c code src/days/day_$DAY.rs src/input/$DAY.txt 
+if [ -f cmd.exe ]; then
+    cmd.exe /c code src/days/day_$DAY.rs src/input/$DAY.txt
+else
+    code src/days/day_$DAY.rs src/input/$DAY.txt
+fi
