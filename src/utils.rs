@@ -9,9 +9,16 @@ pub use std::str::FromStr;
 pub use crate::neighbors::*;
 
 macro_rules! pv {
-	($var: expr) => {
-		println!("{}: {:?}", stringify!($var), $var)
-	};
+    ($var: expr) => {
+        println!("{}: {:?}", stringify!($var), $var)
+    };
+    ($start: expr, $($var: expr),+) => {
+        let mut s = format!("{}: {:?}", stringify!($start), $start);
+        $(
+            s += &format!(",  {}: {:?}", stringify!($var), $var);
+        );*
+        println!("{}", s);
+    };
 }
 
 macro_rules! scanf {
@@ -28,8 +35,8 @@ pub fn parse_u(input: &str) -> usize {
 		.parse::<usize>()
 		.unwrap_or_else(|_| panic!("failed to parse >{}<", input))
 }
-pub fn parse(input: &str) -> i64 {
-	i64::from_str(input).unwrap_or_else(|_| panic!("failed to parse >{}<", input))
+pub fn parse(input: &str) -> isize {
+	isize::from_str(input).unwrap_or_else(|_| panic!("failed to parse >{}<", input))
 }
 
 pub trait IterExt<T> {
@@ -63,7 +70,6 @@ pub fn diff_i(a: isize, b: isize) -> usize {
 pub fn manhattan(p1: (usize, usize), p2: (usize, usize)) -> usize {
 	diff(p1.0, p2.0) + diff(p1.1, p2.1)
 }
-
 pub fn manhattan_i(p1: (isize, isize), p2: (isize, isize)) -> usize {
 	diff_i(p1.0, p2.0) + diff_i(p1.1, p2.1)
 }
@@ -73,6 +79,13 @@ pub fn manhattan_3d(p1: (usize, usize, usize), p2: (usize, usize, usize)) -> usi
 }
 pub fn manhattan_3d_i(p1: (isize, isize, isize), p2: (isize, isize, isize)) -> usize {
 	diff_i(p1.0, p2.0) + diff_i(p1.1, p2.1) + diff_i(p1.2, p2.2)
+}
+
+pub fn moore(p1: (usize, usize), p2: (usize, usize)) -> usize {
+	diff(p1.0, p2.0).max(diff(p1.1, p2.1))
+}
+pub fn moore_i(p1: (isize, isize), p2: (isize, isize)) -> usize {
+	diff_i(p1.0, p2.0).max(diff_i(p1.1, p2.1))
 }
 
 pub fn get_grid<T: Clone>(value: T, width: usize, height: usize) -> Vec<Vec<T>> {

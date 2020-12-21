@@ -25,13 +25,13 @@ pub fn run() {
         let mut index = 0;
         loop {
             let line = &mut parsed[index];
-            if let Ok((n)) = scan_fmt!(line, "acc {}", i32) {
+            if let Ok((n)) = scan_fmt!(line, "acc {}", isize) {
                 acc += n;
                 index += 1;
                 *line = String::from("stop");
-            } else if let Ok((n)) = scan_fmt!(line, "jmp {}", i32) {
-                let new_index = index as i32 + n;
-                if new_index < 0 || new_index > len as i32 + 1 {
+            } else if let Ok((n)) = scan_fmt!(line, "jmp {}", isize) {
+                let new_index = index as isize + n;
+                if new_index < 0 || new_index > len as isize + 1 {
                     continue 'outer;
                 }
                 index = new_index as usize;
@@ -61,12 +61,12 @@ pub fn part_one() {
     let mut index = 0;
     loop {
         let line = &mut parsed[index];
-        if let Ok((n)) = scan_fmt!(line, "acc {}", i32) {
+        if let Ok((n)) = scan_fmt!(line, "acc {}", isize) {
             acc += n;
             index += 1;
             *line = "stop";
-        } else if let Ok((n)) = scan_fmt!(line, "jmp {}", i32) {
-            index = (index as i32 + n) as usize;
+        } else if let Ok((n)) = scan_fmt!(line, "jmp {}", isize) {
+            index = (index as isize + n) as usize;
             *line = "stop";
         } else if *line == "stop" {
             break;
