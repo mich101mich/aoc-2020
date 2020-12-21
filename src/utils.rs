@@ -40,6 +40,18 @@ impl<T, I: Iterator<Item = T>> IterExt<T> for I {
 		self.collect()
 	}
 }
+pub trait IterHashExt<T: std::hash::Hash + std::cmp::Eq> {
+	fn to_set(self) -> HashSet<T>;
+}
+impl<T, I> IterHashExt<T> for I
+where
+	T: std::hash::Hash + std::cmp::Eq,
+	I: Iterator<Item = T>,
+{
+	fn to_set(self) -> HashSet<T> {
+		self.collect()
+	}
+}
 
 pub fn diff(a: usize, b: usize) -> usize {
 	(a as isize - b as isize).abs() as usize
