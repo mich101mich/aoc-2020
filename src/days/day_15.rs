@@ -33,7 +33,7 @@ pub fn part_one() {
 
     let mut previous = HashMap::new();
 
-    for (i, n) in input.split(',').map(parse).enumerate() {
+    for (i, n) in input.split(',').map(parse_u).enumerate() {
         previous.insert(n, i);
     }
     let mut next = 0;
