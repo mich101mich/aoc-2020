@@ -21,6 +21,16 @@ macro_rules! pv {
     };
 }
 
+macro_rules! print_arr {
+	($var: ident) => {
+		print!("{}: ", stringify!($var));
+		for v in $var.iter() {
+			print!("{}", v);
+		}
+		println!();
+	};
+}
+
 macro_rules! scanf {
     ( $instr:expr, $fmt:expr, $($($args:tt)::*),* ) => {
         {
