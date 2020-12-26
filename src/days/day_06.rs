@@ -15,12 +15,12 @@ pub fn run() {
             answers.clear();
             first = true;
         } else {
-            let answer: HashSet<char> = line.trim().chars().collect();
+            let answer = line.trim().chars().to_set();
             if first {
                 answers = answer;
                 first = false;
             } else {
-                answers = answers.intersection(&answer).copied().collect();
+                answers = answers.intersection(&answer).copied().to_set();
             }
         }
     }

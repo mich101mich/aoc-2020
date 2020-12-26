@@ -31,9 +31,9 @@ fn is_valid(data: &HashMap<&str, &str>) -> Option<()> {
         return None;
     }
     u32::from_str_radix(&hcl[1..], 16).ok()?;
-    let ecl: HashSet<_> = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+    let ecl = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
         .iter()
-        .collect();
+        .to_set();
     if !ecl.contains(data.get("ecl")?) {
         return None;
     }
@@ -85,7 +85,6 @@ pub fn part_one() {
     for line in input.lines() {
         if line.trim().is_empty() {
             if current.len() == 8 || (current.len() == 7 && !current.contains("cid")) {
-                println!("current: {:?}", current);
                 valid += 1;
             }
             current.clear();

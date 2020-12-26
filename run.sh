@@ -23,5 +23,4 @@ fn main() {
     day_$DAY::$FUNCTION();
 }" > src/main.rs
 
-cargo clippy
-cargo run
+cargo clippy && cargo run --release

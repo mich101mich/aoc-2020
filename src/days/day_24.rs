@@ -38,7 +38,6 @@ pub fn run() {
             pos.1 += dir.1;
         }
         if !tiles.insert(pos) {
-            println!("Removing {:?}", pos);
             tiles.remove(&pos);
         }
     }
@@ -67,8 +66,8 @@ pub fn run() {
             }
         }
         tiles = new_tiles;
-        println!("Day {}: {}", day, tiles.len());
     }
+    pv!(tiles.len());
 }
 
 #[allow(unused)]
@@ -101,7 +100,6 @@ pub fn part_one() {
             pos.1 += dir.1;
         }
         if !tiles.insert(pos) {
-            println!("Removing {:?}", pos);
             tiles.remove(&pos);
         }
     }

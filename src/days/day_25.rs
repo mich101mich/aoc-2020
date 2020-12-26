@@ -1,10 +1,9 @@
 use crate::utils::*;
 
 #[allow(unused)]
-pub fn run() {
+pub fn part_one() {
     #[allow(unused_variables)]
     let input = include_str!("../input/25.txt");
-    // let input = ;
 
     let parsed = input.lines().map(parse_u).to_vec();
     let card_pub = parsed[0];

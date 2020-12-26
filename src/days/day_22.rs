@@ -4,7 +4,7 @@ fn fight(mut p1: VecDeque<usize>, mut p2: VecDeque<usize>) -> (bool, usize) {
     let mut seen = HashSet::new();
     loop {
         if p1.is_empty() {
-            println!("p2 wins");
+            // println!("p2 wins");
             let sum = p2
                 .iter()
                 .rev()
@@ -14,7 +14,7 @@ fn fight(mut p1: VecDeque<usize>, mut p2: VecDeque<usize>) -> (bool, usize) {
             return (false, sum);
         }
         if p2.is_empty() {
-            println!("p1 wins");
+            // println!("p1 wins");
             let sum = p1
                 .iter()
                 .rev()
@@ -25,7 +25,7 @@ fn fight(mut p1: VecDeque<usize>, mut p2: VecDeque<usize>) -> (bool, usize) {
         }
 
         if !seen.insert((p1.clone(), p2.clone())) {
-            println!("p1 win by default");
+            // println!("p1 win by default");
             return (true, 0);
         }
 
@@ -62,13 +62,13 @@ pub fn run() {
         .skip(1)
         .take_while(|l| !l.is_empty())
         .map(parse_u)
-        .collect::<VecDeque<_>>();
+        .to_queue();
     let mut p2 = input
         .lines()
         .skip_while(|l| !l.is_empty())
         .skip(2)
         .map(parse_u)
-        .collect::<VecDeque<_>>();
+        .to_queue();
 
     let score = fight(p1, p2);
     pv!(score);
@@ -85,13 +85,13 @@ pub fn part_one() {
         .skip(1)
         .take_while(|l| !l.is_empty())
         .map(parse_u)
-        .collect::<VecDeque<_>>();
+        .to_queue();
     let mut p2 = input
         .lines()
         .skip_while(|l| !l.is_empty())
         .skip(2)
         .map(parse_u)
-        .collect::<VecDeque<_>>();
+        .to_queue();
 
     loop {
         if p1.is_empty() {
