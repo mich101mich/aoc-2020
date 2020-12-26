@@ -57,7 +57,7 @@ pub fn part_one() {
     let mut parsed = input
         .chars()
         .map(|c| c as usize - b'0' as usize)
-        .collect::<VecDeque<_>>();
+        .to_queue();
     let min = *parsed.iter().min().unwrap();
     let max = *parsed.iter().max().unwrap();
 

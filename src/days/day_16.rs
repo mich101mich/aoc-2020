@@ -58,15 +58,6 @@ pub fn run() {
         }
     }
 
-    for (key, val) in possible.iter() {
-        print!("{}: ", key);
-        for v in val {
-            print!("{}", if *v { '1' } else { '0' });
-        }
-        println!();
-    }
-    println!();
-
     let mut matching = HashMap::new();
     while matching.len() != n {
         let (key, index) = {
@@ -81,10 +72,8 @@ pub fn run() {
         for row in possible.values_mut() {
             row[index] = false;
         }
-        println!("{}: {}", key, index);
         matching.insert(key, index);
     }
-    println!();
 
     let res: usize = matching
         .iter()

@@ -16,7 +16,6 @@ pub fn run() {
     let (mut offset, mut step) = rest[0];
 
     for (o, s) in rest.iter().skip(1) {
-        println!("{} {}", offset, step);
         let min = (0..)
             .map(|i| i * step + offset)
             .find(|t| (t + o) % s == 0)

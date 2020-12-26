@@ -19,13 +19,12 @@ pub fn run() {
                 .to_vec();
             (key, values)
         })
-        .collect::<HashMap<String, Vec<(usize, String)>>>();
+        .to_map();
 
     let mut cnt = 0;
     let mut next = vec![(1, String::from("shiny gold"))];
 
     while let Some((amount, name)) = next.pop() {
-        println!("{} {}", amount, name);
         cnt += amount;
         for (n, bag) in &parsed[&name] {
             next.push((n * amount, bag.clone()));
@@ -62,7 +61,7 @@ pub fn part_one() {
                 .to_vec();
             (key, values)
         })
-        .collect::<HashMap<String, Vec<(usize, String)>>>();
+        .to_map();
 
     let mut possible = HashSet::new();
 
