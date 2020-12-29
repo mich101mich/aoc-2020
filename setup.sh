@@ -9,10 +9,13 @@ pub fn run() {
     
     let parsed = input
         //.lines()
+        //.chars()
+        //.map(|l| l.chars().to_vec())
         //.map(parse)
-        //.map(|l| scanf!(l, \"{}\", i64))
+        //.map(|l| scanf!(l, \"{}\", isize))
         //.to_vec()
-        //.sum::<i64>()
+        //.sum::<isize>()
+        //.parse::<isize>()
         ;
     
     //pv!(parsed);
@@ -26,7 +29,6 @@ extern crate scan_fmt;
 
 #[macro_use]
 mod utils;
-mod neighbors;
 mod days {
     pub mod day_$DAY;
 }
