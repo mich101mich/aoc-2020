@@ -7,7 +7,7 @@ pub fn run() {
 
     let parsed = input
         .lines()
-        .map(|l| (l.chars().next().unwrap(), l[1..].parse::<isize>().unwrap()))
+        .map(|l| scanf!(l, "{}{}", char, isize).unwrap())
         .to_vec();
 
     let mut pos = (10, -1);
@@ -53,7 +53,7 @@ pub fn part_one() {
 
     let parsed = input
         .lines()
-        .map(|l| (l.chars().next().unwrap(), l[1..].parse::<isize>().unwrap()))
+        .map(|l| scanf!(l, "{}{}", char, isize).unwrap())
         .to_vec();
 
     let mut pos = (0, 0);

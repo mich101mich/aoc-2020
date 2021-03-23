@@ -7,7 +7,7 @@ pub fn run() {
 
     let parsed = input
         .lines()
-        .map(|l| scanf!(l, "{}-{} {}: {}", usize, usize, char, String))
+        .map(|l| scanf!(l, "{}-{} {}: {}", usize, usize, char, String).unwrap())
         .filter(|(left, right, c, s)| {
             (s.chars().nth(left - 1).unwrap() == *c) != (s.chars().nth(right - 1).unwrap() == *c)
         })
@@ -22,7 +22,7 @@ pub fn part_one() {
 
     let parsed = input
         .lines()
-        .map(|l| scanf!(l, "{}-{} {}: {}", usize, usize, char, String))
+        .map(|l| scanf!(l, "{}-{} {}: {}", usize, usize, char, String).unwrap())
         .filter(|(min, max, c, s)| {
             let cnt = s.chars().filter(|x| x == c).count();
             *min <= cnt && *max >= cnt

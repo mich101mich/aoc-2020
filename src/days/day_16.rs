@@ -12,25 +12,22 @@ pub fn run() {
     while let Some(line) = iter.next() {
         if line == "your ticket:" {
             break;
-        } else if line.contains(':') {
-            let mut s = line.split(": ");
-            let key = s.next().unwrap();
-            let values = s
-                .next()
-                .unwrap()
-                .split(" or ")
-                .map(|r| {
-                    let s = r.split('-').map(parse_u).to_vec();
-                    s[0]..=s[1]
-                })
-                .to_vec();
-            fields.insert(key.to_string(), values);
+        } else if let Some((key, a1, b1, a2, b2)) = scanf!(
+            line,
+            "{}: {}-{} or {}-{}",
+            String,
+            usize,
+            usize,
+            usize,
+            usize
+        ) {
+            fields.insert(key, vec![a1..=b1, a2..=b2]);
         }
     }
-    let my_ticket = iter.next().unwrap().split(',').map(parse_u).to_vec();
+    let my_ticket = comma_values::<usize>(iter.next().unwrap());
     iter.next().unwrap();
     iter.next().unwrap();
-    let mut tickets = iter.map(|l| l.split(',').map(parse_u).to_vec()).to_vec();
+    let mut tickets = iter.map(comma_values).to_vec();
 
     tickets.retain(|ticket| {
         ticket.iter().all(|val| {
@@ -95,25 +92,22 @@ pub fn part_one() {
     while let Some(line) = iter.next() {
         if line == "your ticket:" {
             break;
-        } else if line.contains(':') {
-            let mut s = line.split(": ");
-            let key = s.next().unwrap();
-            let values = s
-                .next()
-                .unwrap()
-                .split(" or ")
-                .map(|r| {
-                    let s = r.split('-').map(parse_u).to_vec();
-                    s[0]..=s[1]
-                })
-                .to_vec();
-            fields.insert(key.to_string(), values);
+        } else if let Some((key, a1, b1, a2, b2)) = scanf!(
+            line,
+            "{}: {}-{} or {}-{}",
+            String,
+            usize,
+            usize,
+            usize,
+            usize
+        ) {
+            fields.insert(key, vec![a1..=b1, a2..=b2]);
         }
     }
-    let my_ticket = iter.next().unwrap().split(',').map(parse_u).to_vec();
+    let my_ticket = comma_values::<usize>(iter.next().unwrap());
     iter.next().unwrap();
     iter.next().unwrap();
-    let tickets = iter.map(|l| l.split(',').map(parse_u).to_vec()).to_vec();
+    let tickets = iter.map(comma_values).to_vec();
 
     let mut sum = 0;
     for ticket in tickets.iter() {

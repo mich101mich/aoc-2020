@@ -50,7 +50,7 @@ pub fn run() {
             if l.is_empty() {
                 break;
             }
-            array.push(l.chars().map(|c| c == '#').to_vec());
+            array.push(hashtag_line(l));
         }
 
         tiles.insert(id, array);

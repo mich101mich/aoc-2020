@@ -12,7 +12,7 @@ pub fn run() {
     let mut floating_bits = vec![];
 
     for line in input.lines() {
-        if let Ok(mask) = scan_fmt!(line, "mask = {}", String) {
+        if let Some(mask) = scanf!(line, "mask = {}", String) {
             mask_ones = 0;
             floating = 1;
             floating_bits.clear();
@@ -28,7 +28,7 @@ pub fn run() {
                     panic!("Invalid char: {}", c);
                 }
             }
-        } else if let Ok((addr, val)) = scan_fmt!(line, "mem[{}] = {}", u64, u64) {
+        } else if let Some((addr, val)) = scanf!(line, "mem[{}] = {}", u64, u64) {
             let addr = addr | mask_ones;
             for mask in 0..floating {
                 let mut current = addr;
@@ -58,7 +58,7 @@ pub fn part_one() {
     let mut mask_zeros: u64 = 0;
 
     for line in input.lines() {
-        if let Ok(mask) = scan_fmt!(line, "mask = {}", String) {
+        if let Some(mask) = scanf!(line, "mask = {}", String) {
             mask_ones = 0;
             mask_zeros = 0;
             for (i, c) in mask.chars().rev().enumerate() {
@@ -73,7 +73,7 @@ pub fn part_one() {
                     panic!("Invalid char: {}", c);
                 }
             }
-        } else if let Ok((addr, val)) = scan_fmt!(line, "mem[{}] = {}", u64, u64) {
+        } else if let Some((addr, val)) = scanf!(line, "mem[{}] = {}", u64, u64) {
             let v = (val & mask_zeros) | mask_ones;
             *memory.entry(addr).or_insert(0) = v;
         }

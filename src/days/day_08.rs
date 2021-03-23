@@ -10,26 +10,23 @@ pub fn run() {
     let len = parsed.len();
 
     'outer: for i in 0..parsed.len() {
-        let nop = parsed[i].starts_with("nop");
-        let jmp = parsed[i].starts_with("jmp");
-        if !nop && !jmp {
-            continue;
-        }
         let mut parsed = parsed.clone();
-        if nop {
-            parsed[i] = format!("jmp {}", parsed[i].split(' ').nth(1).unwrap());
+        if let Some(v) = parsed[i].strip_prefix("nop ") {
+            parsed[i] = format!("jmp {}", v);
+        } else if let Some(v) = parsed[i].strip_prefix("jmp ") {
+            parsed[i] = format!("nop {}", v);
         } else {
-            parsed[i] = format!("nop {}", parsed[i].split(' ').nth(1).unwrap());
+            continue;
         }
         let mut acc = 0;
         let mut index = 0;
         loop {
             let line = &mut parsed[index];
-            if let Ok((n)) = scan_fmt!(line, "acc {}", isize) {
+            if let Some(n) = scanf!(line, "acc {}", isize) {
                 acc += n;
                 index += 1;
                 *line = String::from("stop");
-            } else if let Ok((n)) = scan_fmt!(line, "jmp {}", isize) {
+            } else if let Some(n) = scanf!(line, "jmp {}", isize) {
                 let new_index = index as isize + n;
                 if new_index < 0 || new_index > len as isize + 1 {
                     continue 'outer;
@@ -61,11 +58,11 @@ pub fn part_one() {
     let mut index = 0;
     loop {
         let line = &mut parsed[index];
-        if let Ok((n)) = scan_fmt!(line, "acc {}", isize) {
+        if let Some(n) = scanf!(line, "acc {}", isize) {
             acc += n;
             index += 1;
             *line = "stop";
-        } else if let Ok((n)) = scan_fmt!(line, "jmp {}", isize) {
+        } else if let Some(n) = scanf!(line, "jmp {}", isize) {
             index = (index as isize + n) as usize;
             *line = "stop";
         } else if *line == "stop" {

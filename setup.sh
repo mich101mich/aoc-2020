@@ -12,7 +12,7 @@ pub fn run() {
         //.chars()
         //.map(|l| l.chars().to_vec())
         //.map(parse)
-        //.map(|l| scanf!(l, \"{}\", isize))
+        //.map(|l| scanf!(l, \"{}\", isize).unwrap())
         //.to_vec()
         //.sum::<isize>()
         //.parse::<isize>()
@@ -23,9 +23,6 @@ pub fn run() {
 }" > src/days/day_$DAY.rs
 
 echo "#![allow(unused_imports)]
-
-#[macro_use]
-extern crate scan_fmt;
 
 #[macro_use]
 mod utils;
