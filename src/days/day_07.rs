@@ -8,14 +8,10 @@ pub fn run() {
     let parsed = input
         .lines()
         .map(|l| {
-            let mut s = l.split("bags contain");
-            let key = s.next().unwrap().trim().to_owned();
-            let values = s
-                .next()
-                .unwrap()
+            let (key, values) = scanf!(l, "{} bags contain {}", String, String).unwrap();
+            let values = values
                 .split(", ")
-                .filter_map(|s| scan_fmt!(s, "{} {} {} bag", usize, String, String).ok())
-                .map(|(n, s1, s2)| (n, format!("{} {}", s1, s2)))
+                .filter_map(|s| scanf_unescaped!(s, "{} {} bags?\\.?", usize, String))
                 .to_vec();
             (key, values)
         })
@@ -50,14 +46,10 @@ pub fn part_one() {
     let parsed = input
         .lines()
         .map(|l| {
-            let mut s = l.split("bags contain");
-            let key = s.next().unwrap().trim().to_owned();
-            let values = s
-                .next()
-                .unwrap()
+            let (key, values) = scanf!(l, "{} bags contain {}", String, String).unwrap();
+            let values = values
                 .split(", ")
-                .filter_map(|s| scan_fmt!(s, "{} {} {} bag", usize, String, String).ok())
-                .map(|(n, s1, s2)| (n, format!("{} {}", s1, s2)))
+                .filter_map(|s| scanf_unescaped!(s, "{} {} bags?\\.?", usize, String))
                 .to_vec();
             (key, values)
         })

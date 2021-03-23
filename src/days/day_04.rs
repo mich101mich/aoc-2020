@@ -27,10 +27,10 @@ fn is_valid(data: &HashMap<&str, &str>) -> Option<()> {
         return None;
     }
     let hcl = data.get("hcl")?;
-    if !hcl.starts_with('#') || hcl.len() != 7 {
+    if hcl.len() != 7 {
         return None;
     }
-    u32::from_str_radix(&hcl[1..], 16).ok()?;
+    scanf!(hcl, "#{}", HexNumber)?;
     let ecl = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
         .iter()
         .to_set();

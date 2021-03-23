@@ -4,10 +4,7 @@ use crate::utils::*;
 pub fn run() {
     #[allow(unused_variables)]
     let input = include_str!("../input/03.txt");
-    let parsed = input
-        .lines()
-        .map(|line| line.chars().map(|c| c == '#').to_vec())
-        .to_vec();
+    let parsed = hashtag_grid(input);
     let w = parsed[0].len();
 
     let mut total = 1;
@@ -33,11 +30,7 @@ pub fn part_one() {
     let input = include_str!("../input/03.txt");
     let mut pos = (0, 0);
 
-    let parsed = input
-        .lines()
-        .map(|line| line.chars().map(|c| c == '#').to_vec())
-        .to_vec();
-
+    let parsed = hashtag_grid(input);
     let w = parsed[0].len();
 
     let mut cnt = 0;
