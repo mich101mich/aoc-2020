@@ -43,7 +43,7 @@ pub fn run() {
 
     let mut rules = vec![Rule::Char('x'); n];
     for (k, v) in first_section {
-        rules[k] = if let Ok((c)) = scan_fmt!(v, "\"{}\"", char) {
+        rules[k] = if let Some((c)) = scanf!(v, "\"{}\"", char) {
             Rule::Char(c)
         } else {
             Rule::Sequence(
@@ -150,7 +150,7 @@ pub fn part_one() {
 
     let mut rules = vec![Rule::Char('x'); n];
     for (k, v) in first_section {
-        rules[k] = if let Ok((c)) = scan_fmt!(v, "\"{}\"", char) {
+        rules[k] = if let Some((c)) = scanf!(v, "\"{}\"", char) {
             Rule::Char(c)
         } else {
             Rule::Sequence(

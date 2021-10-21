@@ -43,7 +43,7 @@ pub fn run() {
     let mut iter = input.lines();
 
     while let Some(line) = iter.next() {
-        let id = scanf!(line, "Tile {}:", usize);
+        let id = scanf!(line, "Tile {}:", usize).unwrap();
 
         let mut array = vec![];
         while let Some(l) = iter.next() {
@@ -53,27 +53,17 @@ pub fn run() {
             array.push(hashtag_line(l));
         }
 
-        tiles.insert(id, array);
+        tiles.insert(id, Grid::from(array));
     }
 
-    let (w, h) = {
-        let array = tiles.values().next().unwrap();
-        (array[0].len(), array.len())
-    };
+    let (w, h) = tiles.values().next().unwrap().bounds();
     assert_eq!(w, h);
 
     let mut borders = HashMap::<u16, Vec<usize>>::new();
-    for (id, array) in tiles.iter() {
-        let sides = [
-            array[0].clone(),                        // Dir::Up
-            array.iter().map(|l| l[w - 1]).to_vec(), // Dir::Right
-            array[w - 1].clone(),                    // Dir::Down
-            array.iter().map(|l| l[0]).to_vec(),     // Dir::Left
-        ];
-
-        for side in sides.iter() {
-            let real = iter_to_num(side.iter());
-            let rev = iter_to_num(side.iter().rev());
+    for (id, tile) in tiles.iter() {
+        for dir in Dir::all() {
+            let real = iter_to_num(tile.border(dir));
+            let rev = iter_to_num(tile.border(dir).rev());
             if let Some(ids) = borders.get_mut(&real) {
                 ids.push(*id);
                 borders.get_mut(&rev).unwrap().push(*id);
@@ -105,24 +95,24 @@ pub fn run() {
     let mut current_row = 0;
 
     let (mut left_match, mut top_match, mut final_tiles) = {
-        let mut array = tiles[&top_left].clone();
+        let mut tile = tiles[&top_left].clone();
         let mut left_match = 0;
         let mut top_match = 0;
 
         for rotating in 0..8 {
-            left_match = iter_to_num(array.iter().map(|l| &l[w - 1]));
-            top_match = iter_to_num(array[w - 1].iter().rev());
+            left_match = iter_to_num(tile.border(Dir::Right));
+            top_match = iter_to_num(tile.border(Dir::Down));
 
             if borders[&left_match].len() == 2 && borders[&top_match].len() == 2 {
                 break;
             }
-            rotate_grid_clock(&mut array);
+            tile.rotate_clockwise();
             if rotating == 3 {
-                array.reverse();
+                tile.reverse();
             }
         }
-        trim_border(&mut array);
-        (left_match, top_match, array)
+        trim_border(&mut tile);
+        (left_match, top_match, tile)
     };
 
     let mut remaining = tiles.keys().copied().to_set();
@@ -136,25 +126,24 @@ pub fn run() {
         {
             remaining.remove(&id);
 
-            let mut array = tiles[&id].clone();
+            let mut tile = tiles[&id].clone();
             for rotating in 0..8 {
-                let code = iter_to_num(array.iter().map(|l| &l[0]));
+                let code = iter_to_num(tile.border(Dir::Left));
                 if code == left_match {
                     break;
                 }
-                rotate_grid_clock(&mut array);
+                tile.rotate_clockwise();
                 if rotating == 3 {
-                    array.reverse();
+                    tile.reverse();
                 }
             }
-            left_match = iter_to_num(array.iter().map(|l| &l[w - 1]));
-            trim_border(&mut array);
-            for (row_in, row_out) in array
+            left_match = iter_to_num(tile.border(Dir::Right));
+            trim_border(&mut tile);
+            final_tiles
                 .iter_mut()
-                .zip(final_tiles.iter_mut().skip(current_row))
-            {
-                row_out.append(row_in);
-            }
+                .rev()
+                .zip(tile.iter_mut().rev())
+                .for_each(|(row_out, row_in)| row_out.append(row_in));
         } else {
             let border = &borders[&top_match];
 
@@ -165,28 +154,28 @@ pub fn run() {
                 .unwrap();
 
             remaining.remove(&id);
-            let mut array = tiles[&id].clone();
+            let mut tile = tiles[&id].clone();
             for rotating in 0..8 {
-                let code = iter_to_num(array[0].iter().rev());
+                let code = iter_to_num(tile.border(Dir::Up));
                 if code == top_match {
                     break;
                 }
-                rotate_grid_clock(&mut array);
+                tile.rotate_clockwise();
                 if rotating == 3 {
-                    array.reverse();
+                    tile.reverse();
                 }
             }
-            left_match = iter_to_num(array.iter().map(|l| &l[w - 1]));
-            top_match = iter_to_num(array[w - 1].iter().rev());
+            left_match = iter_to_num(tile.border(Dir::Right));
+            top_match = iter_to_num(tile.border(Dir::Down));
 
-            trim_border(&mut array);
-            final_tiles.append(&mut array);
+            trim_border(&mut tile);
+            final_tiles.append(&mut tile);
             current_row += size;
         }
     }
 
-    let total_size = final_tiles.len();
-    assert_eq!(total_size, final_tiles[0].len());
+    let total_size = final_tiles.w();
+    assert_eq!(total_size, final_tiles.h());
 
     let monster_width = sea_monster.lines().next().unwrap().chars().count();
     let monster_height = sea_monster.lines().count();
@@ -198,7 +187,7 @@ pub fn run() {
         {
             if hash_monster
                 .iter()
-                .all(|(dx, dy)| final_tiles[y + dy][x + dx])
+                .all(|(dx, dy)| final_tiles[(x + dx, y + dy)])
             {
                 count += 1;
             }
@@ -206,7 +195,7 @@ pub fn run() {
         if count != 0 {
             break;
         }
-        rotate_grid_clock(&mut final_tiles);
+        final_tiles.rotate_clockwise();
         if rotating == 3 {
             final_tiles.reverse();
         }
@@ -231,38 +220,28 @@ pub fn part_one() {
     let mut iter = input.lines();
 
     while let Some(line) = iter.next() {
-        let id = scanf!(line, "Tile {}:", usize);
+        let id = scanf!(line, "Tile {}:", usize).unwrap();
 
         let mut array = vec![];
         while let Some(l) = iter.next() {
             if l.is_empty() {
                 break;
             }
-            array.push(l.chars().map(|c| c == '#').to_vec());
+            array.push(hashtag_line(l));
         }
 
-        tiles.insert(id, array);
+        tiles.insert(id, Grid::from(array));
     }
 
-    let (w, h) = {
-        let array = tiles.values().next().unwrap();
-        (array[0].len(), array.len())
-    };
+    let (w, h) = tiles.values().next().unwrap().bounds();
     assert_eq!(w, h);
 
     let mut borders = HashMap::<u16, Vec<(usize, Dir)>>::new();
-    for (id, array) in tiles.iter() {
-        let sides = [
-            (Dir::Up, array[0].clone()),
-            (Dir::Right, array.iter().map(|l| l[w - 1]).to_vec()),
-            (Dir::Down, array[w - 1].clone()),
-            (Dir::Left, array.iter().map(|l| l[0]).to_vec()),
-        ];
-
-        for (dir, side) in sides.iter() {
-            let obj = (*id, *dir);
-            let real = iter_to_num(side.iter());
-            let rev = iter_to_num(side.iter().rev());
+    for (id, tile) in tiles.iter() {
+        for dir in Dir::all() {
+            let obj = (*id, dir);
+            let real = iter_to_num(tile.border(dir));
+            let rev = iter_to_num(tile.border(dir).rev());
             if let Some(ids) = borders.get_mut(&real) {
                 ids.push(obj);
                 borders.get_mut(&rev).unwrap().push(obj);

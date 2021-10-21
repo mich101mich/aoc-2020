@@ -1,12 +1,12 @@
-#![allow(unused_imports)]
+#![allow(unused_imports, clippy::while_let_on_iterator)]
 
 #[macro_use]
 mod utils;
 mod days {
-    pub mod day_04;
+    pub mod day_25;
 }
-use days::day_04;
+use days::day_25;
 
 fn main() {
-    day_04::run();
+    day_25::part_one();
 }

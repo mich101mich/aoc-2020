@@ -1,3 +1,4 @@
+#![allow(clippy::manual_range_contains)]
 use crate::utils::*;
 
 #[allow(unused)]

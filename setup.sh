@@ -22,7 +22,7 @@ pub fn run() {
     
 }" > src/days/day_$DAY.rs
 
-echo "#![allow(unused_imports)]
+echo "#![allow(unused_imports, clippy::while_let_on_iterator)]
 
 #[macro_use]
 mod utils;
