@@ -7,23 +7,13 @@ pub fn run() {
     // let input = ;
 
     let mut iter = input.lines();
-    let mut fields = HashMap::new();
+    let fields = iter
+        .by_ref()
+        .take_while(|l| *l != "your ticket:")
+        .filter_map(|l| scanf!(l, "{}: {}-{} or {}-{}", String, usize, usize, usize, usize))
+        .map(|(key, a1, b1, a2, b2)| (key, vec![a1..=b1, a2..=b2]))
+        .to_map();
 
-    while let Some(line) = iter.next() {
-        if line == "your ticket:" {
-            break;
-        } else if let Some((key, a1, b1, a2, b2)) = scanf!(
-            line,
-            "{}: {}-{} or {}-{}",
-            String,
-            usize,
-            usize,
-            usize,
-            usize
-        ) {
-            fields.insert(key, vec![a1..=b1, a2..=b2]);
-        }
-    }
     let my_ticket = comma_values::<usize>(iter.next().unwrap());
     iter.next().unwrap();
     iter.next().unwrap();
@@ -87,23 +77,13 @@ pub fn part_one() {
     // let input = ;
 
     let mut iter = input.lines();
-    let mut fields = HashMap::new();
+    let fields = iter
+        .by_ref()
+        .take_while(|l| *l != "your ticket:")
+        .filter_map(|l| scanf!(l, "{}: {}-{} or {}-{}", String, usize, usize, usize, usize))
+        .map(|(key, a1, b1, a2, b2)| (key, vec![a1..=b1, a2..=b2]))
+        .to_map();
 
-    while let Some(line) = iter.next() {
-        if line == "your ticket:" {
-            break;
-        } else if let Some((key, a1, b1, a2, b2)) = scanf!(
-            line,
-            "{}: {}-{} or {}-{}",
-            String,
-            usize,
-            usize,
-            usize,
-            usize
-        ) {
-            fields.insert(key, vec![a1..=b1, a2..=b2]);
-        }
-    }
     let my_ticket = comma_values::<usize>(iter.next().unwrap());
     iter.next().unwrap();
     iter.next().unwrap();

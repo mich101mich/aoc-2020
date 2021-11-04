@@ -1,4 +1,4 @@
-#![allow(unused_imports, clippy::while_let_on_iterator)]
+#![allow(unused_imports)]
 
 #[macro_use]
 mod utils;

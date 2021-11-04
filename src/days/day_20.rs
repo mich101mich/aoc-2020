@@ -1,5 +1,3 @@
-#![allow(clippy::while_let_on_iterator)]
-
 use crate::utils::*;
 
 fn iter_to_num<'a, I: DoubleEndedIterator<Item = &'a bool>>(v: I) -> u16 {
@@ -45,15 +43,13 @@ pub fn run() {
     while let Some(line) = iter.next() {
         let id = scanf!(line, "Tile {}:", usize).unwrap();
 
-        let mut array = vec![];
-        while let Some(l) = iter.next() {
-            if l.is_empty() {
-                break;
-            }
-            array.push(hashtag_line(l));
-        }
+        let lines = iter
+            .by_ref()
+            .take_while(|l| !l.is_empty())
+            .map(hashtag_line)
+            .to_vec();
 
-        tiles.insert(id, Grid::from(array));
+        tiles.insert(id, Grid::from(lines));
     }
 
     let (w, h) = tiles.values().next().unwrap().bounds();
@@ -222,15 +218,13 @@ pub fn part_one() {
     while let Some(line) = iter.next() {
         let id = scanf!(line, "Tile {}:", usize).unwrap();
 
-        let mut array = vec![];
-        while let Some(l) = iter.next() {
-            if l.is_empty() {
-                break;
-            }
-            array.push(hashtag_line(l));
-        }
+        let lines = iter
+            .by_ref()
+            .take_while(|l| !l.is_empty())
+            .map(hashtag_line)
+            .to_vec();
 
-        tiles.insert(id, Grid::from(array));
+        tiles.insert(id, Grid::from(lines));
     }
 
     let (w, h) = tiles.values().next().unwrap().bounds();
